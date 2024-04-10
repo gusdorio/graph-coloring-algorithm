@@ -9,8 +9,9 @@ class Clicks:
     def __init__(self, graph: 'nx.Graph'):
         self.graph = graph  # is expected a nx object...
         self.adjacency_add(self.graph)
-        self.size_2(self.graph)
-        self.size_n(self.graph)
+        self.nodes = self.graph.number_of_nodes()
+        self.size_2(self.graph, self.nodes)
+        self.size_n(self.graph, self.nodes)
 
     def adjacency_add(self, graph):
         # Add the adjacency of each node
@@ -18,10 +19,10 @@ class Clicks:
             neighbors = list(graph.neighbors(n))
             self.adjacency[n] = neighbors
 
-    def size_2(self, adjacency):
+    def size_2(self, adjacency, nodes):
         # Function to define clicks of size two
         node = 0
-        while node < 10:  # STEP 1 -> DEFINING PAIRS
+        while node < nodes:  # STEP 1 -> DEFINING PAIRS
             click = []
             for item in adjacency[node]:
                 if [node, item] not in self.clicks:
@@ -29,10 +30,10 @@ class Clicks:
                         self.clicks.append([node, item])
             node += 1
 
-    def size_n(self, adjacency):
+    def size_n(self, adjacency, nodes):
         # Define clicks of size > 2
         node = 0
-        while node < 10:
+        while node < nodes:
             actual = adjacency[node]
             click = []
             if len(actual) > 1:
@@ -51,6 +52,6 @@ class Clicks:
 """
 For test purposes, you can see the return of a instance of Clicks class
 """
-# x = Clicks(nx.gnp_random_graph(10, .3))
+# x = Clicks(nx.gnp_random_graph(2, .3))
 # print(x.adjacency)
 # print(x.clicks)
